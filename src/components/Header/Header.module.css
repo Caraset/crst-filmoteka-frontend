@@ -2,10 +2,19 @@
   padding-top: 40px;
   width: 100%;
   height: 231px;
-  background-image: url('/src/images/main-background.jpg');
   background-size: cover;
-  background-position: center;
+
   border: none;
+}
+
+.homebg {
+  background-image: url('/src/images/main-background.jpg');
+  background-position: center;
+}
+
+.librarybg {
+  background-image: url('/src/images/library-bg.jpg');
+  background-position: bottom;
 }
 
 .menu {

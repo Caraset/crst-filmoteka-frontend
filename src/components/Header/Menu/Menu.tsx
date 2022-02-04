@@ -8,7 +8,7 @@ export default function Menu() {
       <li className={style.item}>
         {/* <NavLink to="home" className={style.link}> */}
         <NavLink
-          to="home"
+          to="/home"
           className={({ isActive }) =>
             isActive ? `${style.link} ${style.active}` : `${style.link}`
           }
@@ -18,7 +18,7 @@ export default function Menu() {
       </li>
       <li className={style.item}>
         <NavLink
-          to="library"
+          to="/library"
           className={({ isActive }) =>
             isActive ? `${style.link} ${style.active}` : `${style.link}`
           }
