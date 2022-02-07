@@ -5,7 +5,7 @@ import Container from 'components/Container'
 export default function HomeView() {
   return (
     <>
-      <Header />
+      {/* <Header /> */}
       <Container>
         <div>test</div>
       </Container>

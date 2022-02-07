@@ -5,6 +5,8 @@
   --accent-color: #ff6b08;
   --main-text-color: #fff;
   --white-color: #ffffff;
+  --secondary-color: #f7f7f7;
+  --third-color: #545454;
 
   --duration: 250ms;
   --transition-fun: cubic-bezier(0.4, 0, 0.2, 1);

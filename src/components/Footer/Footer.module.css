@@ -1,0 +1,31 @@
+.footer {
+  padding: 25px 35px;
+  width: 100%;
+  min-height: 100px;
+  background-color: var(--secondary-color);
+
+  text-align: center;
+}
+
+.text {
+  font-size: 14px;
+  line-height: 2;
+
+  color: var(--third-color);
+}
+
+.students {
+  text-decoration: underline;
+}
+
+@media screen and (min-width: 484px) {
+  .footer {
+    min-height: 77px;
+  }
+}
+
+@media screen and (min-width: 545px) {
+  .text {
+    font-size: 16px;
+  }
+}

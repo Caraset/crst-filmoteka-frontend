@@ -6,10 +6,12 @@ import Container from './components/Container'
 import HomeView from 'views/home'
 import LibraryView from 'views/library'
 import PublicRoute from 'components/publicRoute'
+import Footer from 'components/Footer'
 
 function App() {
   return (
     <div className={style.App}>
+      <Header />
       <>
         <Routes>
           <Route path="library" element={<LibraryView />} />
@@ -17,18 +19,9 @@ function App() {
           <Route path="/" element={<Navigate to={'/home'} />} />
         </Routes>
       </>
+      <Footer />
     </div>
   )
 }
-// function App() {
-//   return (
-//     <div className={style.App}>
-// <Header />
-// <Container>
-//   <div className={style.test}>test</div>
-// </Container>
-//     </div>
-//   )
-// }
 
 export default App

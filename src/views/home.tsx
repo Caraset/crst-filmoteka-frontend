@@ -6,7 +6,7 @@ import Gallery from 'components/Gallery'
 export default function HomeView() {
   return (
     <>
-      <Header />
+      {/* <Header /> */}
       <Container>
         <div>test</div>
         <Gallery />
