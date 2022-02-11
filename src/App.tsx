@@ -7,6 +7,8 @@ import HomeView from 'views/home'
 import LibraryView from 'views/library'
 import PublicRoute from 'components/publicRoute'
 import Footer from 'components/Footer'
+import { useGetGenresQuery } from 'redux/query/movies'
+import { GenreI } from 'redux/query/types'
 
 function App() {
   return (

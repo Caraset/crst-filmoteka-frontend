@@ -1,6 +1,14 @@
 import { configureStore } from '@reduxjs/toolkit'
+import { persistStore, persistReducer } from 'redux-persist'
+import storage from 'redux-persist/lib/storage'
 import { moviesApi } from './query/movies'
 import searchReducer from './search/searchSlice'
+
+const persistConfig = {
+  key: 'genres',
+  storage,
+  whitelist: ['genres'],
+}
 
 export const store = configureStore({
   reducer: {

@@ -1,6 +1,7 @@
 /* eslint-disable */
 
 export interface MoviesI {
+  id?: number
   page: number
   results: MovieI[]
   total_results: number
@@ -12,7 +13,7 @@ export interface MovieI {
   adult: boolean
   overview: string
   release_date: string
-  genre_ids: GenreI[]
+  genre_ids: number[]
   id: number
   original_title: string
   original_language: string

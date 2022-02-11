@@ -1,0 +1,46 @@
+.container {
+  width: 280px;
+  cursor: pointer;
+
+  transition-property: transform;
+  transition-duration: var(--duration);
+  transition-timing-function: var(--transition-fun);
+}
+
+.container:hover {
+  transform: scale(1.03);
+}
+
+.poster {
+  width: 100%;
+  height: 400px;
+
+  transition-property: box-shadow;
+  transition-duration: var(--duration);
+  transition-timing-function: var(--transition-fun);
+}
+
+.container:hover .poster {
+  box-shadow: 4px 4px 8px 0px var(--accent-color);
+}
+
+.title {
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 1.3;
+  /* or 133% */
+
+  text-transform: uppercase;
+}
+
+.description {
+  padding: 10px 0;
+}
+
+.aditionalInfo {
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 1.3;
+
+  color: var(--accent-color);
+}
