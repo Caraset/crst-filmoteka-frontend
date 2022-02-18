@@ -4,10 +4,10 @@ import type { GenreI, MoviesI } from './types'
 
 const { REACT_APP_API_KEY: KEY } = process.env
 
-interface OptionsI {
-  page: number
-  skip: number
-}
+// interface OptionsI {
+//   page: number
+//   skip: number
+// }
 
 const genresAdapter = createEntityAdapter<GenreI>({
   sortComparer: (a, b) => a.name.localeCompare(b.name),
@@ -25,9 +25,8 @@ export const moviesApi = createApi({
         return genresAdapter.addMany(genresAdapter.getInitialState(), genres)
       },
     }),
-    getPopularMovies: builder.query<MoviesI, OptionsI>({
-      query: ({ page, skip }) =>
-        `trending/movie/day?api_key=${KEY}&page=${page}&size=${skip}`,
+    getPopularMovies: builder.query<MoviesI, number>({
+      query: page => `trending/movie/day?api_key=${KEY}&page=${page}`,
     }),
   }),
 })

@@ -6,7 +6,6 @@ import style from './Item.module.css'
 
 interface Props {
   movie: MovieI
-  // genres: GenreI[]
   genres: EntityState<GenreI>
 }
 
