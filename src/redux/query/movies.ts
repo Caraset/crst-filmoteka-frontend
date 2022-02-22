@@ -4,11 +4,6 @@ import type { GenreI, MoviesI } from './types'
 
 const { REACT_APP_API_KEY: KEY } = process.env
 
-// interface OptionsI {
-//   page: number
-//   skip: number
-// }
-
 const genresAdapter = createEntityAdapter<GenreI>({
   sortComparer: (a, b) => a.name.localeCompare(b.name),
 })
@@ -28,9 +23,17 @@ export const moviesApi = createApi({
     getPopularMovies: builder.query<MoviesI, number>({
       query: page => `trending/movie/day?api_key=${KEY}&page=${page}`,
     }),
+    searchMovieByName: builder.query<MoviesI, { page: number; name: string }>({
+      query: ({ name, page }) =>
+        `search/movie?api_key=${KEY}&page=${page}&query=${name}`,
+    }),
   }),
 })
 
 // Export hooks for usage in function components, which are
 // auto-generated based on the defined endpoints
-export const { useGetGenresQuery, useGetPopularMoviesQuery } = moviesApi
+export const {
+  useGetGenresQuery,
+  useGetPopularMoviesQuery,
+  useSearchMovieByNameQuery,
+} = moviesApi

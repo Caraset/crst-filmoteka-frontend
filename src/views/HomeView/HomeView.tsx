@@ -1,19 +1,29 @@
-import React, { useState } from 'react'
-import { Transition, TransitionGroup } from 'react-transition-group'
+import React, { useEffect, useState } from 'react'
+import { useSelector } from 'react-redux'
 import Container from 'components/Container'
 import Gallery from 'components/Gallery'
-import Modal from 'components/Modal'
-import { useGetPopularMoviesQuery } from 'redux/query/movies'
+import {
+  useGetPopularMoviesQuery,
+  useSearchMovieByNameQuery,
+} from 'redux/query/movies'
 import { MoviesI } from 'redux/query/types'
 import style from './HomeView.module.css'
-
-const duration = 5000
+import { getSearchValue } from 'redux/selectors'
+import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css'
+import { TailSpin } from 'react-loader-spinner'
 
 export default function HomeView() {
-  const [page, setPage] = useState<number>(1)
-  // const [showModal, setShowModal] = useState<boolean>(false)
-  const [inProp, setInProp] = useState(false)
-  const { data, isFetching } = useGetPopularMoviesQuery(page)
+  const [page, setPage] = useState(1)
+  const { input: name } = useSelector(getSearchValue)
+
+  useEffect(() => {
+    setPage(1)
+  }, [name])
+
+  const { data, isFetching } =
+    name.length === 0
+      ? useGetPopularMoviesQuery(page)
+      : useSearchMovieByNameQuery({ name, page })
 
   const { results, total_pages: totalPages } = (data as MoviesI) ?? {
     results: [],
@@ -25,7 +35,9 @@ export default function HomeView() {
       <Container>
         <div className={style.wrapper}>
           {isFetching ? (
-            <div>fetching</div>
+            <div className={style.loadingContainer}>
+              <TailSpin color="#ff6b08" height={100} width={100} />
+            </div>
           ) : (
             <>
               <Gallery
@@ -33,42 +45,11 @@ export default function HomeView() {
                 totalPages={totalPages}
                 page={page}
                 setPage={setPage}
-                // openModal={setShowModal}
               />
-              {/* {showModal && <Modal />} */}
             </>
           )}
         </div>
       </Container>
     </>
   )
-
-  // return (
-  //   <>
-  //     <Container>
-  //       <div className={style.wrapper}>
-  //         {isFetching ? (
-  //           <div>fetching</div>
-  //         ) : (
-  //           <Transition
-  //             in={inProp}
-  //             timeout={duration}
-  //             onEntering={() => setInProp(true)}
-  //           >
-  //             {state => (
-  //               <div className={state}>
-  //                 <Gallery
-  //                   movies={results}
-  //                   totalPages={totalPages}
-  //                   page={page}
-  //                   setPage={setPage}
-  //                 />
-  //               </div>
-  //             )}
-  //           </Transition>
-  //         )}
-  //       </div>
-  //     </Container>
-  //   </>
-  // )
 }

@@ -98,12 +98,14 @@ export default function Gallery({ movies, totalPages, page, setPage }: Props) {
           </ul>
         )}
       </Transition>
-      <Pagination
-        totalPages={totalPages}
-        page={page}
-        setPage={setPage}
-        setAnimation={setInProp}
-      />
+      {totalPages > 1 && (
+        <Pagination
+          totalPages={totalPages}
+          page={page}
+          setPage={setPage}
+          setAnimation={setInProp}
+        />
+      )}
       {showModal && (
         <Modal movie={selectedMovie} closeModal={() => setShowModal(false)} />
       )}

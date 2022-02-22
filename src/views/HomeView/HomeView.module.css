@@ -1,1 +1,6 @@
-
+.loadingContainer {
+  min-height: calc(100vh - 231px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
