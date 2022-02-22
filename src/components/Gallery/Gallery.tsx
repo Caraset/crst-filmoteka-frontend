@@ -9,6 +9,7 @@ import { EntityState } from '@reduxjs/toolkit'
 import style from './Gallery.module.css'
 import Item from './Item'
 import Pagination from './Pagination'
+import Modal from 'components/Modal'
 import type { MoviesI, MovieI, GenreI } from 'redux/query/types'
 
 interface Props {
@@ -16,6 +17,23 @@ interface Props {
   totalPages: number
   page: number
   setPage: React.Dispatch<React.SetStateAction<number>>
+}
+
+const moviePlaceHolder: MovieI = {
+  poster_path: 'poster path',
+  adult: true,
+  overview: 'overview of a movie',
+  release_date: 'release date',
+  genre_ids: [15, 20],
+  id: 6969696969,
+  original_title: 'movie title',
+  original_language: 'english',
+  title: 'movie title',
+  backdrop_path: null,
+  popularity: 54,
+  vote_count: 68,
+  video: false,
+  vote_average: 5.9,
 }
 
 const duration = 300
@@ -42,8 +60,18 @@ const transitionStyles = {
 export default function Gallery({ movies, totalPages, page, setPage }: Props) {
   const nodeRef = React.useRef(null)
 
+  const [selectedMovie, setSelectedMovie] = useState<MovieI>(moviePlaceHolder)
+  const [showModal, setShowModal] = useState(false)
   const [inProp, setInProp] = useState(false)
+
   const { data } = useGetGenresQuery('genres')
+
+  const openModal = (movie: MovieI) => {
+    return () => {
+      setSelectedMovie(movie)
+      setShowModal(true)
+    }
+  }
 
   useEffect(() => {
     setInProp(true)
@@ -59,7 +87,11 @@ export default function Gallery({ movies, totalPages, page, setPage }: Props) {
             style={{ ...defaultStyle, ...transitionStyles[state] }}
           >
             {movies.map((movie: MovieI) => (
-              <li className={style.item} key={movie.id}>
+              <li
+                className={style.item}
+                key={movie.id}
+                onClick={openModal(movie)}
+              >
                 <Item movie={movie} genres={data as EntityState<GenreI>} />
               </li>
             ))}
@@ -72,6 +104,9 @@ export default function Gallery({ movies, totalPages, page, setPage }: Props) {
         setPage={setPage}
         setAnimation={setInProp}
       />
+      {showModal && (
+        <Modal movie={selectedMovie} closeModal={() => setShowModal(false)} />
+      )}
     </div>
   )
 }

@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { Transition, TransitionGroup } from 'react-transition-group'
 import Container from 'components/Container'
 import Gallery from 'components/Gallery'
+import Modal from 'components/Modal'
 import { useGetPopularMoviesQuery } from 'redux/query/movies'
 import { MoviesI } from 'redux/query/types'
 import style from './HomeView.module.css'
@@ -10,6 +11,7 @@ const duration = 5000
 
 export default function HomeView() {
   const [page, setPage] = useState<number>(1)
+  // const [showModal, setShowModal] = useState<boolean>(false)
   const [inProp, setInProp] = useState(false)
   const { data, isFetching } = useGetPopularMoviesQuery(page)
 
@@ -25,12 +27,16 @@ export default function HomeView() {
           {isFetching ? (
             <div>fetching</div>
           ) : (
-            <Gallery
-              movies={results}
-              totalPages={totalPages}
-              page={page}
-              setPage={setPage}
-            />
+            <>
+              <Gallery
+                movies={results}
+                totalPages={totalPages}
+                page={page}
+                setPage={setPage}
+                // openModal={setShowModal}
+              />
+              {/* {showModal && <Modal />} */}
+            </>
           )}
         </div>
       </Container>

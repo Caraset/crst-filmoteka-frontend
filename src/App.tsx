@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Navigate, Route, Routes } from 'react-router-dom'
 import style from './App.module.css'
 import Header from './components/Header'
@@ -11,6 +11,16 @@ import { useGetGenresQuery } from 'redux/query/movies'
 import { GenreI } from 'redux/query/types'
 
 function App() {
+  useEffect(() => {
+    document.addEventListener('keydown', e => {
+      if (e.key === 'q') {
+        window.scrollTo({ top: document.body.offsetHeight })
+      }
+      if (e.key === 'w') {
+        window.scrollTo({ top: -document.body.offsetHeight })
+      }
+    })
+  }, [])
   return (
     <div className={style.App}>
       <Header />

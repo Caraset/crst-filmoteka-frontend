@@ -1,0 +1,18 @@
+.container {
+  min-width: 100%;
+  min-height: 100%;
+
+  position: fixed;
+  top: 0;
+  left: 0;
+
+  background: none;
+  /* pointer-events: none; */
+}
+
+.overflowContainer {
+  padding-top: 10px;
+  padding-bottom: 10px;
+  height: calc(100vh - 40px);
+  overflow: auto;
+}
