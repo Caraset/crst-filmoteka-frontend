@@ -5,7 +5,7 @@ import Gallery from 'components/Gallery'
 import {
   useGetPopularMoviesQuery,
   useSearchMovieByNameQuery,
-} from 'redux/query/movies'
+} from 'redux/query/themoviedbApi'
 import { MoviesI } from 'redux/query/types'
 import style from './HomeView.module.css'
 import { getSearchValue } from 'redux/selectors'
@@ -40,12 +40,24 @@ export default function HomeView() {
             </div>
           ) : (
             <>
-              <Gallery
+              {results.length < 1 ? (
+                <div className={style.textPlaceHolderContainer}>
+                  <p className={style.textPlaceHolder}>Nothing found... :(</p>
+                </div>
+              ) : (
+                <Gallery
+                  movies={results}
+                  totalPages={totalPages}
+                  page={page}
+                  setPage={setPage}
+                />
+              )}
+              {/* <Gallery
                 movies={results}
                 totalPages={totalPages}
                 page={page}
                 setPage={setPage}
-              />
+              /> */}
             </>
           )}
         </div>

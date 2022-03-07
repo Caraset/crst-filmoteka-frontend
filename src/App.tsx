@@ -5,12 +5,15 @@ import Header from './components/Header'
 import Container from './components/Container'
 import HomeView from 'views/HomeView/HomeView'
 import LibraryView from 'views/library'
-import PublicRoute from 'components/publicRoute'
+// import PublicRoute from 'components/PublicRoute'
 import Footer from 'components/Footer'
-import { useGetGenresQuery } from 'redux/query/movies'
+import { useGetGenresQuery } from 'redux/query/themoviedbApi'
+import { useGetCurrentUserQuery } from 'redux/query/ownApi'
 import { GenreI } from 'redux/query/types'
+import AuthView from 'views/AuthView'
 
 function App() {
+  const { isFetching } = useGetCurrentUserQuery()
   useEffect(() => {
     document.addEventListener('keydown', e => {
       if (e.key === 'q') {
@@ -28,6 +31,8 @@ function App() {
         <Routes>
           <Route path="library" element={<LibraryView />} />
           <Route path="home" element={<HomeView />} />
+          <Route path="signup" element={<AuthView />} />
+          <Route path="signin" element={<AuthView />} />
           <Route path="/" element={<Navigate to={'/home'} />} />
         </Routes>
       </div>

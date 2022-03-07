@@ -4,7 +4,10 @@ import {
   TransitionGroup,
   CSSTransition,
 } from 'react-transition-group'
-import { useGetGenresQuery, useGetPopularMoviesQuery } from 'redux/query/movies'
+import {
+  useGetGenresQuery,
+  useGetPopularMoviesQuery,
+} from 'redux/query/themoviedbApi'
 import { EntityState } from '@reduxjs/toolkit'
 import style from './Gallery.module.css'
 import Item from './Item'

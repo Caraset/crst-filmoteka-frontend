@@ -1,6 +1,19 @@
-.loadingContainer {
+.loadingContainer,
+.textPlaceHolderContainer {
   min-height: calc(100vh - 231px);
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.textPlaceHolder {
+  text-align: center;
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 64px;
+  line-height: 75px;
+  letter-spacing: 0.06em;
+
+  color: #adadad;
 }

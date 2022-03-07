@@ -82,6 +82,15 @@
   color: #8c8c8c;
 }
 
+.innerContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.description {
+}
+
 .right {
   /* margin-bottom: 20px; */
   display: block;
@@ -247,3 +256,7 @@
     height: initial;
   }
 }
+
+/* .buttonsContainer {
+  background-color: #ff0000;
+} */
