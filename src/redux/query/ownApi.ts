@@ -41,9 +41,7 @@ export const ownApi = createApi({
           const { data } = await queryFulfilled
 
           dispatch(setCredentials(data))
-        } catch (error) {
-          console.log('error: ', error)
-        }
+        } catch (error) {}
       },
       invalidatesTags: ['movies'],
     }),
@@ -70,14 +68,9 @@ export const ownApi = createApi({
           return { error: respons.error as FetchBaseQueryError }
         }
 
-        // if ((respons.data as { message: string }).message === 'jwt expired') {
-        //   dispatch(clearCredentials())
-        //   return { data: (respons.data as { message: string }).message }
-        // }
-
         const user = respons.data as IUser
 
-        if (!user) {
+        if (user) {
           dispatch(setUser(user))
           return { data: user }
         }
@@ -86,22 +79,10 @@ export const ownApi = createApi({
       },
       providesTags: ['user'],
     }),
-    // getRandomUserPosts: builder.query<Post, void>({
-    //   async queryFn(_arg, _queryApi, _extraOptions, fetchWithBQ) {
-    //     // get a random user
-    //     const randomResult = await fetchWithBQ('users/random')
-    //     if (randomResult.error) throw randomResult.error
-    //     const user = randomResult.data as User
-    //     const result = await fetchWithBQ(`user/${user.id}/posts`)
-    //     return result.data
-    //       ? { data: result.data as Post }
-    //       : { error: result.error as FetchBaseQueryError }
-    //   },
-    // }),
-    logOutUser: builder.mutation({
+    logOutUser: builder.mutation<void, void>({
       query: () => ({
         url: '/users/logout',
-        method: 'POST',
+        method: 'GET',
       }),
       async onQueryStarted(_, { dispatch, queryFulfilled }) {
         await queryFulfilled

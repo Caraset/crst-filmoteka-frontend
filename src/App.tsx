@@ -11,6 +11,8 @@ import { useGetGenresQuery } from 'redux/query/themoviedbApi'
 import { useGetCurrentUserQuery } from 'redux/query/ownApi'
 import { GenreI } from 'redux/query/types'
 import AuthView from 'views/AuthView'
+import PrivateRoad from 'components/PrivateRoad'
+import PublicRoute from 'components/PublicRoute'
 
 function App() {
   const { isFetching } = useGetCurrentUserQuery()
@@ -29,11 +31,35 @@ function App() {
       <Header />
       <div className={style.wrapper}>
         <Routes>
-          <Route path="library" element={<LibraryView />} />
+          {/* <Route path="library" element={<LibraryView />} /> */}
+          <Route
+            path="library"
+            element={
+              <PrivateRoad redirectTo="/signin">
+                <LibraryView />
+              </PrivateRoad>
+            }
+          />
           <Route path="home" element={<HomeView />} />
-          <Route path="signup" element={<AuthView />} />
-          <Route path="signin" element={<AuthView />} />
-          <Route path="/" element={<Navigate to={'/home'} />} />
+          {/* <Route path="signup" element={<AuthView />} /> */}
+          {/* <Route path="signin" element={<AuthView />} /> */}
+          <Route
+            path="signup"
+            element={
+              <PublicRoute restricted={true}>
+                <AuthView />
+              </PublicRoute>
+            }
+          />
+          <Route
+            path="signin"
+            element={
+              <PublicRoute restricted={true}>
+                <AuthView />
+              </PublicRoute>
+            }
+          />
+          <Route path="*" element={<Navigate to={'/home'} />} />
         </Routes>
       </div>
       <Footer />

@@ -2,6 +2,8 @@ import React, { FormEvent, useState } from 'react'
 import { useLocation } from 'react-router-dom'
 import { useSignInMutation, useSignUpMutation } from 'redux/query/ownApi'
 import style from './AuthForm.module.css'
+import IError from '__interface__/IError'
+import { FetchBaseQueryError } from '@reduxjs/toolkit/dist/query'
 
 export default function AuthForm() {
   const [email, setEmail] = useState<string>('')
@@ -10,19 +12,22 @@ export default function AuthForm() {
 
   const loc = useLocation()
 
-  const [signUp] = useSignUpMutation()
-  const [signIn] = useSignInMutation()
+  const [signUp, signUpData] = useSignUpMutation()
+  const [signIn, signInData] = useSignInMutation()
 
-  const submitHandler = (e: FormEvent) => {
+  const submitHandler = async (e: FormEvent) => {
     e.preventDefault()
 
     switch (loc.pathname) {
       case '/signup':
-        signUp({ email, password })
+        const res = await signUp({ email, password })
+        if ((res as { error: FetchBaseQueryError }).error) {
+          break
+        }
         setfulfilledForm(true)
         break
       case '/signin':
-        signIn({ email, password })
+        await signIn({ email, password })
         break
       default:
         break
@@ -69,6 +74,22 @@ export default function AuthForm() {
                 password<span className={style.dots}>:</span>
               </label>
             </span>
+            {signInData.isError && (
+              <p className={style.error}>
+                {
+                  ((signInData.error as FetchBaseQueryError).data as IError)
+                    .message
+                }
+              </p>
+            )}
+            {signUpData.isError && (
+              <p className={style.error}>
+                {
+                  ((signUpData.error as FetchBaseQueryError).data as IError)
+                    .message
+                }
+              </p>
+            )}
             <button className={style.btn} type="submit">
               Submit
             </button>
