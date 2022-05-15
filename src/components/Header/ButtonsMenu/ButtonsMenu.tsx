@@ -7,6 +7,7 @@ interface Props {
   styleClass?: string
   currentActive?: 'left' | 'right'
   buttonsOptions: IbuttonOptions
+  buttonFunc?: () => boolean | void
   // changeCurrentActive: () => void
 }
 
@@ -24,13 +25,27 @@ Props) {
         <Button
           text={buttonsOptions.leftText}
           active={current === 'left'}
-          changeCurrent={() => setCurrent('left')}
+          clickHandller={() => setCurrent('left')}
+          // clickHandller={() => {
+          //   const shoudRedirect = buttonFunc()
+          //   if (shoudRedirect) {
+          //     return
+          //   }
+          //   setCurrent('left')
+          // }}
           theme={buttonsOptions.theme}
         />
         <Button
           text={buttonsOptions.rightText}
           active={current === 'right'}
-          changeCurrent={() => setCurrent('right')}
+          clickHandller={() => setCurrent('right')}
+          // clickHandller={() => {
+          //   const shoudRedirect = buttonFunc()
+          //   if (shoudRedirect) {
+          //     return
+          //   }
+          //   setCurrent('right')
+          // }}
           theme={buttonsOptions.theme}
         />
       </div>

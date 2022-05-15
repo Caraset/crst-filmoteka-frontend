@@ -54,7 +54,7 @@ function App() {
           <Route
             path="signin"
             element={
-              <PublicRoute restricted={true}>
+              <PublicRoute restricted={true} redirectTo="/library">
                 <AuthView />
               </PublicRoute>
             }

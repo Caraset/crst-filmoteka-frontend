@@ -5,14 +5,14 @@ import style from './Button.module.css'
 interface Props {
   text: string
   active: boolean
-  changeCurrent?: () => void
+  clickHandller?: () => void
   theme: 'dark' | 'light'
 }
 
-export default function Button({ text, active, changeCurrent, theme }: Props) {
+export default function Button({ text, active, clickHandller, theme }: Props) {
   return (
     <button
-      onClick={changeCurrent}
+      onClick={clickHandller}
       className={`${style.button} ${style[theme]} ${
         active ? style.active : ''
       }`}

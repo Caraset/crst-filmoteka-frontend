@@ -2,7 +2,7 @@ import React from 'react'
 import style from './Modal.module.css'
 
 import BackDrop from 'components/BackDrop'
-import ModalWindow from 'components/ModalWindow'
+import ModalWindow from 'components/Modal/ModalWindow'
 import { createPortal } from 'react-dom'
 import { useGetPopularMoviesQuery } from 'redux/query/themoviedbApi'
 import { MovieI } from 'redux/query/types'

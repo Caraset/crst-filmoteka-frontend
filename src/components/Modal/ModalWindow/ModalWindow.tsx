@@ -1,28 +1,54 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useGetGenresQuery } from 'redux/query/themoviedbApi'
 import { MovieI } from 'redux/query/types'
 import { ReactComponent as CloseIcon } from 'images/close.svg'
 import style from './ModalWindow.module.css'
-import ButtonsMenu from 'components/Header/ButtonsMenu'
+import ButtonsMenu from './ButtonsMenu'
 import { IbuttonOptions } from '__interface__'
+import { useNavigate } from 'react-router-dom'
+import { useSelector } from 'react-redux'
+import { getIsLoggedIn } from 'redux/auth/authSelector'
+import {
+  useSaveMovieMutation,
+  useGetCurrentUserQuery,
+  useRemoveMovieMutation,
+} from 'redux/query/ownApi'
 
 interface Props {
   movie: MovieI
   closeModal: () => void
 }
 
-const modalButtonsOptions: IbuttonOptions = {
-  leftText: 'add to watched',
-  rightText: 'add to queue',
-  theme: 'dark',
-}
-
 export default function ModalWindow({ movie, closeModal }: Props) {
   const { data: genres } = useGetGenresQuery('genres')
+  const navigate = useNavigate()
+  const isLoggedIn = useSelector(getIsLoggedIn)
+  const [isMovieInWatched, setIsMovieInWatched] = useState(false)
+  const [isMovieInQueue, setIsMovieInQueue] = useState(false)
 
   const movieGenres: string[] = movie.genre_ids.map(
     gen => genres?.entities[gen]?.name,
   ) as string[]
+
+  const [saveMovie] = useSaveMovieMutation()
+  const [deleteMovie] = useRemoveMovieMutation()
+
+  const { data: user } = useGetCurrentUserQuery()
+
+  useEffect(() => {
+    if ((user?.moviesWatched as number[])?.find(id => id === movie.id)) {
+      setIsMovieInWatched(true)
+    }
+    if ((user?.moviesQueue as number[])?.find(id => id === movie.id)) {
+      setIsMovieInQueue(true)
+    }
+  }, [])
+
+  const modalButtonsOptions: IbuttonOptions = {
+    leftText: isMovieInWatched ? 'remove from watched' : 'add to watched',
+    rightText: isMovieInQueue ? 'remove from queue' : 'add to queue',
+    theme: 'dark',
+  }
 
   const closeModalByEsc = (e: KeyboardEvent) => {
     const { key } = e
@@ -32,6 +58,45 @@ export default function ModalWindow({ movie, closeModal }: Props) {
     }
 
     closeModal()
+  }
+
+  const notLoggedRedirect = () => {
+    if (!isLoggedIn) {
+      navigate('/signin')
+      return true
+    }
+
+    return false
+  }
+
+  const addMovie = (type: 'watched' | 'queue') => {
+    switch (type) {
+      case 'watched':
+        saveMovie({ movie, type })
+        setIsMovieInWatched(!isMovieInWatched)
+        break
+      case 'queue':
+        saveMovie({ movie, type })
+        setIsMovieInQueue(!isMovieInQueue)
+        break
+      default:
+        break
+    }
+  }
+
+  const removeMovie = (type: 'watched' | 'queue') => {
+    switch (type) {
+      case 'watched':
+        deleteMovie({ movieId: movie.id, type })
+        setIsMovieInWatched(!isMovieInWatched)
+        break
+      case 'queue':
+        deleteMovie({ movieId: movie.id, type })
+        setIsMovieInQueue(!isMovieInQueue)
+        break
+      default:
+        break
+    }
   }
 
   useEffect(() => {
@@ -91,8 +156,24 @@ export default function ModalWindow({ movie, closeModal }: Props) {
             </div>
           </div>
           <ButtonsMenu
+            leftBtnActive={isMovieInWatched}
+            rightBtnActive={isMovieInQueue}
             buttonsOptions={modalButtonsOptions}
             styleClass={style.buttonsContainer}
+            leftBtnFunc={
+              !isLoggedIn
+                ? () => navigate('/signin')
+                : isMovieInWatched
+                ? () => removeMovie('watched')
+                : () => addMovie('watched')
+            }
+            rightBtnFunc={
+              !isLoggedIn
+                ? () => navigate('/signin')
+                : isMovieInQueue
+                ? () => removeMovie('queue')
+                : () => addMovie('queue')
+            }
           />
         </div>
       </div>

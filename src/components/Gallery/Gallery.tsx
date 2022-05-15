@@ -1,13 +1,6 @@
 import React, { useEffect, useState, useRef, useMemo } from 'react'
-import {
-  Transition,
-  TransitionGroup,
-  CSSTransition,
-} from 'react-transition-group'
-import {
-  useGetGenresQuery,
-  useGetPopularMoviesQuery,
-} from 'redux/query/themoviedbApi'
+import { Transition } from 'react-transition-group'
+import { useGetGenresQuery } from 'redux/query/themoviedbApi'
 import { EntityState } from '@reduxjs/toolkit'
 import style from './Gallery.module.css'
 import Item from './Item'

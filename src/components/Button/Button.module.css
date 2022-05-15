@@ -1,6 +1,8 @@
 .button {
-  min-width: 136px;
+  /* min-width: 136px; */
   min-height: 44px;
+  /* max-width: 136px; */
+  width: 136px;
 
   background: none;
 
@@ -29,10 +31,11 @@
 .active {
   background-color: var(--accent-color);
   border: none;
+  color: var(--white-color);
 }
 
-.button:hover,
-.button:focus {
+.button:hover {
   background-color: var(--accent-color);
   border: none;
+  color: var(--white-color);
 }

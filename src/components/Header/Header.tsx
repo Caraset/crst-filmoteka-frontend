@@ -7,6 +7,8 @@ import Menu from './Menu'
 import Search from './Search'
 import ButtonsMenu from './ButtonsMenu'
 import { IbuttonOptions } from '__interface__'
+import { useSelector } from 'react-redux'
+import { getIsLoggedIn } from 'redux/auth/authSelector'
 
 const headerButtonsOptions: IbuttonOptions = {
   leftText: 'watched',
@@ -16,7 +18,7 @@ const headerButtonsOptions: IbuttonOptions = {
 
 export default function Header() {
   const loc = useLocation()
-  const [isLoged, setIsLoged] = useState(false)
+  const isLoggedIn = useSelector(getIsLoggedIn)
 
   return (
     <header
@@ -40,11 +42,13 @@ export default function Header() {
         {loc.pathname === '/home' ? (
           <Search />
         ) : (
-          <ButtonsMenu
-            styleClass={style.buttonsContainer}
-            buttonsOptions={headerButtonsOptions}
-            currentActive={'left'}
-          />
+          isLoggedIn && (
+            <ButtonsMenu
+              styleClass={style.buttonsContainer}
+              buttonsOptions={headerButtonsOptions}
+              currentActive={'left'}
+            />
+          )
         )}
       </Container>
     </header>
