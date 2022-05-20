@@ -3,11 +3,17 @@
 // }
 
 export interface IUser {
-  password?: string
-  email?: string | null
-  moviesWatched?: string[] | number[]
-  moviesQueue?: string[] | number[]
-  token?: string | null
+  // password?: string
+  email: string | null
+  moviesQueue: {
+    movies: number[]
+    totalMovies: number
+  }
+  moviesWatched: {
+    movies: number[]
+    totalMovies: number
+  }
+  token: string | null
   verify?: boolean
   verificationToken?: string | null
 }

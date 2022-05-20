@@ -32,7 +32,8 @@ const slice = createSlice({
       state.isLoggedIn = true
     },
     clearCredentials: state => {
-      state.user = { email: null }
+      state.user = { ...(state.user as IUser), email: null }
+      // state.user = { ...state.user, email: null }
       state.token = null
       state.isLoggedIn = false
     },

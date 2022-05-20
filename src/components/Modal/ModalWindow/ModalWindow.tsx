@@ -12,6 +12,7 @@ import {
   useSaveMovieMutation,
   useGetCurrentUserQuery,
   useRemoveMovieMutation,
+  useGetUserMoviesQuery,
 } from 'redux/query/ownApi'
 
 interface Props {
@@ -36,10 +37,10 @@ export default function ModalWindow({ movie, closeModal }: Props) {
   const { data: user } = useGetCurrentUserQuery()
 
   useEffect(() => {
-    if ((user?.moviesWatched as number[])?.find(id => id === movie.id)) {
+    if ((user?.moviesWatched.movies as number[])?.find(id => id === movie.id)) {
       setIsMovieInWatched(true)
     }
-    if ((user?.moviesQueue as number[])?.find(id => id === movie.id)) {
+    if ((user?.moviesQueue.movies as number[])?.find(id => id === movie.id)) {
       setIsMovieInQueue(true)
     }
   }, [])
@@ -164,15 +165,27 @@ export default function ModalWindow({ movie, closeModal }: Props) {
               !isLoggedIn
                 ? () => navigate('/signin')
                 : isMovieInWatched
-                ? () => removeMovie('watched')
-                : () => addMovie('watched')
+                ? () => {
+                    removeMovie('watched')
+                    setIsMovieInWatched(false)
+                  }
+                : () => {
+                    addMovie('watched')
+                    setIsMovieInWatched(true)
+                  }
             }
             rightBtnFunc={
               !isLoggedIn
                 ? () => navigate('/signin')
                 : isMovieInQueue
-                ? () => removeMovie('queue')
-                : () => addMovie('queue')
+                ? () => {
+                    removeMovie('queue')
+                    setIsMovieInQueue(false)
+                  }
+                : () => {
+                    addMovie('queue')
+                    setIsMovieInQueue(true)
+                  }
             }
           />
         </div>

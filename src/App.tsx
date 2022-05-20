@@ -4,7 +4,7 @@ import style from './App.module.css'
 import Header from './components/Header'
 import Container from './components/Container'
 import HomeView from 'views/HomeView/HomeView'
-import LibraryView from 'views/library'
+import LibraryView from 'views/LibraryView'
 // import PublicRoute from 'components/PublicRoute'
 import Footer from 'components/Footer'
 import { useGetGenresQuery } from 'redux/query/themoviedbApi'
@@ -31,18 +31,20 @@ function App() {
       <Header />
       <div className={style.wrapper}>
         <Routes>
-          {/* <Route path="library" element={<LibraryView />} /> */}
           <Route
-            path="library"
+            path="/library/*"
+            element={<Navigate to={'/library/watched'} />}
+          />
+          <Route
+            path="/library/:type/*"
             element={
               <PrivateRoad redirectTo="/signin">
                 <LibraryView />
+                {/* <div>lib</div> */}
               </PrivateRoad>
             }
           />
           <Route path="home" element={<HomeView />} />
-          {/* <Route path="signup" element={<AuthView />} /> */}
-          {/* <Route path="signin" element={<AuthView />} /> */}
           <Route
             path="signup"
             element={
@@ -60,6 +62,8 @@ function App() {
             }
           />
           <Route path="*" element={<Navigate to={'/home'} />} />
+          {/* <Route path="*" element={<div>res</div>} /> */}
+          <Route path="/*" element={<div>route</div>} />
         </Routes>
       </div>
       <Footer />

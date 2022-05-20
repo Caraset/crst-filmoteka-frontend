@@ -1,5 +1,5 @@
-import React, { EventHandler } from 'react'
-import { NavLink } from 'react-router-dom'
+import React, { EventHandler, useState, useEffect } from 'react'
+import { NavLink, useLocation, useNavigate } from 'react-router-dom'
 import style from './Menu.module.css'
 
 import { getIsLoggedIn } from 'redux/auth/authSelector'
@@ -8,7 +8,6 @@ import { useLogOutUserMutation } from 'redux/query/ownApi'
 import Button from 'components/Button'
 
 export default function Menu() {
-  // const [isLoggedIn, setIsLoggedIn] = useState(getIsLoggedIn)
   const [logout] = useLogOutUserMutation()
   const isLoggedIn = useSelector(getIsLoggedIn)
 
@@ -21,15 +20,12 @@ export default function Menu() {
   return (
     <ul className={style.list}>
       <li className={style.item}>
-        {/* <NavLink to="home" className={style.link}> */}
         <NavLink
-          // to="/home"
           to={`${isLoggedIn ? '/home' : '/signup'}`}
           className={({ isActive }) =>
             isActive ? `${style.link} ${style.active}` : `${style.link}`
           }
         >
-          {/* home */}
           {`${isLoggedIn ? 'home' : 'signUp'}`}
         </NavLink>
       </li>

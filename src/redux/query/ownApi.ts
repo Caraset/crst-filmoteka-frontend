@@ -5,11 +5,17 @@ import { IUser } from '__interface__/IUser'
 import { MovieI } from './types'
 import { MoviesI } from './types'
 
-interface errorResponsApi {
+export interface errorResponsApi {
   code: number
   data: {
     message: string
   }
+}
+
+export interface userLibraryI {
+  moviesLibrary: { moviesWatched: number[]; moviesQueue: number[] }
+  page: number
+  total_pages: number
 }
 
 export const ownApi = createApi({
@@ -27,7 +33,7 @@ export const ownApi = createApi({
       return headers
     },
   }),
-  tagTypes: ['movies', 'user'],
+  tagTypes: ['movies', 'user', 'watchedMovies', 'queueMovies'],
   endpoints: builder => ({
     signUp: builder.mutation({
       query: user => ({
@@ -50,7 +56,7 @@ export const ownApi = createApi({
           dispatch(setCredentials(data))
         } catch (error) {}
       },
-      invalidatesTags: ['movies'],
+      invalidatesTags: ['movies', 'user'],
     }),
     getCurrentUser: builder.query<IUser, void>({
       query: () => '/users/current',
@@ -72,39 +78,6 @@ export const ownApi = createApi({
         }
       },
     }),
-    // getCurrentUser: builder.query<IUser | string, void>({
-    //   async queryFn(__, { getState, dispatch, signal }, _, baseQuery) {
-    //     const persistedToken = (getState() as RootState).auth.token
-
-    //     if (persistedToken === null) {
-    //       return { data: 'no token' }
-    //     }
-
-    //     const respons = await baseQuery('/users/current')
-
-    //     if (respons.error) {
-    //       if (
-    //         (respons.error.data as { message: string }).message ===
-    //         'jwt expired'
-    //       ) {
-    //         dispatch(clearCredentials())
-    //         return { error: respons.error as FetchBaseQueryError }
-    //       }
-
-    //       return { error: respons.error as FetchBaseQueryError }
-    //     }
-
-    //     const user = respons.data as IUser
-
-    //     if (user) {
-    //       dispatch(setUser(user))
-    //       return { data: user }
-    //     }
-
-    //     return { data: 'no user' }
-    //   },
-    //   providesTags: ['user'],
-    // }),
     logOutUser: builder.mutation<void, void>({
       query: () => ({
         url: '/users/logout',
@@ -122,9 +95,9 @@ export const ownApi = createApi({
       query: payload => ({
         url: '/movie/save',
         method: 'POST',
-        // body: { movie },
         body: { ...payload },
       }),
+      invalidatesTags: ['user', 'watchedMovies', 'queueMovies'],
     }),
     removeMovie: builder.mutation<
       void,
@@ -135,13 +108,36 @@ export const ownApi = createApi({
         method: 'DELETE',
         body: { ...payload },
       }),
+      invalidatesTags: ['user', 'queueMovies', 'watchedMovies'],
     }),
 
-    getUserMovies: builder.query<MoviesI, void>({
-      query: () => ({
-        url: `/movie/user_movies/`,
+    getUserMovies: builder.query<
+      MoviesI,
+      { page: number; type: 'watched' | 'queue' | undefined }
+    >({
+      query: ({ page, type }) => ({
+        url: `/movie?page=${page}&type=${type}`,
         method: 'GET',
       }),
+      providesTags: ['movies'],
+    }),
+    getUserWatchedMovies: builder.query<
+      MoviesI,
+      { page: number; limit?: number }
+    >({
+      query: ({ page }) => ({
+        url: `/movie/watched?page=${page}`,
+        method: 'GET',
+        // body: { ...payload },
+      }),
+      providesTags: ['watchedMovies'],
+    }),
+    getUserQueueMovies: builder.query<
+      MoviesI,
+      { page: number; limit?: number }
+    >({
+      query: ({ page }) => `/movie/queue?page=${page}`,
+      providesTags: ['queueMovies'],
     }),
   }),
 })
@@ -152,7 +148,8 @@ export const {
   useLogOutUserMutation,
   useGetCurrentUserQuery,
   useSaveMovieMutation,
-  useGetUserMoviesQuery,
   useRemoveMovieMutation,
-  // useSaveMovieIdMutation,
+  useGetUserMoviesQuery,
+  useGetUserQueueMoviesQuery,
+  useGetUserWatchedMoviesQuery,
 } = ownApi
