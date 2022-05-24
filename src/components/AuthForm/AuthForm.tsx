@@ -39,7 +39,7 @@ export default function AuthForm() {
   return (
     <div className={style.container}>
       {fulfilledFrom && loc.pathname === '/signup' ? (
-        <p>Verification mail was sent.</p>
+        <p>Success</p>
       ) : (
         <>
           <h2 className={style.title}>

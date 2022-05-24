@@ -20,7 +20,6 @@ export default function LibraryView() {
 
   const { type } = useParams<{ type: 'watched' | 'queue' }>()
 
-  // const { data, isFetching } = useGetUserMoviesQuery({ page, type })
   const { data, isFetching } =
     type === 'watched'
       ? useGetUserWatchedMoviesQuery({ page })
