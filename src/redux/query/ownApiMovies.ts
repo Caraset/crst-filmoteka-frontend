@@ -13,8 +13,7 @@ const moviesApi = ownApi.injectEndpoints({
         method: 'POST',
         body: { ...payload },
       }),
-      // invalidatesTags: ['user', 'watchedMovies', 'queueMovies'],
-      invalidatesTags: ['user'],
+      invalidatesTags: ['user', 'watchedMovies', 'queueMovies'],
     }),
     removeMovie: builder.mutation<
       void,
@@ -25,8 +24,7 @@ const moviesApi = ownApi.injectEndpoints({
         method: 'DELETE',
         body: { ...payload },
       }),
-      // invalidatesTags: ['user', 'queueMovies', 'watchedMovies'],
-      invalidatesTags: ['user'],
+      invalidatesTags: ['user', 'queueMovies', 'watchedMovies'],
     }),
     getUserMovies: builder.query<
       MoviesI,
