@@ -16,6 +16,26 @@ export default function Footer() {
         >
           Valerii
         </a>
+        {' | '}
+        {`   source code \u2794 `}
+        <a
+          className={style.link}
+          href="https://github.com/Caraset/crst-filmoteka-backend"
+          rel="noreferrer"
+          referrerPolicy="no-referrer"
+          target={'_blank'}
+        >
+          Backend
+        </a>{' '}
+        <a
+          className={style.link}
+          href="https://github.com/Caraset/crst-filmoteka-frontend"
+          rel="noreferrer"
+          referrerPolicy="no-referrer"
+          target={'_blank'}
+        >
+          Frontend
+        </a>
       </p>
     </footer>
   )
