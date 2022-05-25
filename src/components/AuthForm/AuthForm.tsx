@@ -1,14 +1,16 @@
 import React, { FormEvent, useState } from 'react'
 import { useLocation } from 'react-router-dom'
-import { useSignInMutation, useSignUpMutation } from 'redux/query/ownApi'
-import style from './AuthForm.module.css'
-import IError from '__interface__/IError'
+import { errorI } from 'types'
+
+import { useSignInMutation, useSignUpMutation } from 'redux/query/ownApiAuth'
 import { FetchBaseQueryError } from '@reduxjs/toolkit/dist/query'
 
+import style from './AuthForm.module.css'
+
 export default function AuthForm() {
-  const [email, setEmail] = useState<string>('')
-  const [password, setPassword] = useState<string>('')
-  const [fulfilledFrom, setfulfilledForm] = useState(false)
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const [fulfilledForm, setfulfilledForm] = useState(false)
 
   const loc = useLocation()
 
@@ -38,13 +40,22 @@ export default function AuthForm() {
   }
   return (
     <div className={style.container}>
-      {fulfilledFrom && loc.pathname === '/signup' ? (
+      {fulfilledForm && loc.pathname === '/signup' ? (
         <p>Success</p>
       ) : (
         <>
           <h2 className={style.title}>
             {loc.pathname === '/signup' ? 'Sign Up' : 'Sign In'}
           </h2>
+          <p
+            style={{
+              fontWeight: '500',
+              color: 'red',
+              textTransform: 'uppercase',
+            }}
+          >
+            do not use real email and password
+          </p>
           <form action="" className={style.form} onSubmit={submitHandler}>
             <span className={style.labelContainer}>
               <input
@@ -77,7 +88,7 @@ export default function AuthForm() {
             {signInData.isError && (
               <p className={style.error}>
                 {
-                  ((signInData.error as FetchBaseQueryError).data as IError)
+                  ((signInData.error as FetchBaseQueryError).data as errorI)
                     .message
                 }
               </p>
@@ -85,7 +96,7 @@ export default function AuthForm() {
             {signUpData.isError && (
               <p className={style.error}>
                 {
-                  ((signUpData.error as FetchBaseQueryError).data as IError)
+                  ((signUpData.error as FetchBaseQueryError).data as errorI)
                     .message
                 }
               </p>

@@ -1,4 +1,27 @@
-/* eslint-disable */
+export interface IbuttonOptions {
+  leftText: string
+  rightText: string
+  theme: 'light' | 'dark'
+}
+
+export interface errorI {
+  message: string
+}
+
+export interface IUser {
+  email: string | null
+  moviesQueue: {
+    movies: number[]
+    totalMovies: number
+  }
+  moviesWatched: {
+    movies: number[]
+    totalMovies: number
+  }
+  token: string | null
+  verify?: boolean
+  verificationToken?: string | null
+}
 
 export interface MoviesI {
   id?: number

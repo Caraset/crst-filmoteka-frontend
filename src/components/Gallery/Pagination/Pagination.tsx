@@ -1,7 +1,9 @@
-import React, { useState, useEffect, useMemo } from 'react'
+import React, { useState, useEffect } from 'react'
 import throttle from 'lodash.throttle'
 import ReactPaginate from 'react-paginate'
+
 import { ReactComponent as Arrow } from 'images/arrow-left.svg'
+
 import style from './Pagination.module.css'
 
 interface Props {
@@ -33,16 +35,12 @@ export default function Pagination({
   return (
     <ReactPaginate
       breakLabel="..."
-      // previousLabel="< "
-      // nextLabel=" >"
       previousLabel={<Arrow className={style.prevIcon} />}
       nextLabel={<Arrow className={style.nextIcon} />}
       onPageChange={e => setPage(e.selected + 1)}
-      // pageRangeDisplayed={5}
       pageRangeDisplayed={4}
       marginPagesDisplayed={width >= 425 ? 1 : 0}
       pageCount={totalPages}
-      // pageCount={0}
       renderOnZeroPageCount={() => null}
       containerClassName={style.list}
       breakClassName={style.dots}

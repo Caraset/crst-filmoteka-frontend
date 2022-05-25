@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { persistReducer } from 'redux-persist'
 import storage from 'redux-persist/lib/storage'
-import { IUser } from '__interface__/IUser'
+import { IUser } from 'types'
 
 type AuthState = {
   user: IUser | null
@@ -32,8 +32,7 @@ const slice = createSlice({
       state.isLoggedIn = true
     },
     clearCredentials: state => {
-      state.user = { ...(state.user as IUser), email: null }
-      // state.user = { ...state.user, email: null }
+      state.user = null
       state.token = null
       state.isLoggedIn = false
     },
@@ -45,8 +44,6 @@ const slice = createSlice({
 })
 
 export const { setCredentials, setUser, clearCredentials } = slice.actions
-
-// export default slice.reducer
 
 const authReducer = slice.reducer
 

@@ -1,31 +1,21 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { Navigate, Route, Routes } from 'react-router-dom'
-import style from './App.module.css'
-import Header from './components/Header'
-import Container from './components/Container'
+
 import HomeView from 'views/HomeView/HomeView'
 import LibraryView from 'views/LibraryView'
-// import PublicRoute from 'components/PublicRoute'
-import Footer from 'components/Footer'
-import { useGetGenresQuery } from 'redux/query/themoviedbApi'
-import { useGetCurrentUserQuery } from 'redux/query/ownApi'
-import { GenreI } from 'redux/query/types'
 import AuthView from 'views/AuthView'
+
+import Header from './components/Header'
+import Footer from 'components/Footer'
 import PrivateRoad from 'components/PrivateRoad'
 import PublicRoute from 'components/PublicRoute'
+import { useGetCurrentUserQuery } from 'redux/query/ownApiAuth'
+
+import style from './App.module.css'
 
 function App() {
-  const { isFetching } = useGetCurrentUserQuery()
-  useEffect(() => {
-    document.addEventListener('keydown', e => {
-      if (e.key === 'q') {
-        window.scrollTo({ top: document.body.offsetHeight })
-      }
-      if (e.key === 'w') {
-        window.scrollTo({ top: -document.body.offsetHeight })
-      }
-    })
-  }, [])
+  useGetCurrentUserQuery()
+
   return (
     <div className={style.App}>
       <Header />
@@ -40,7 +30,6 @@ function App() {
             element={
               <PrivateRoad redirectTo="/signin">
                 <LibraryView />
-                {/* <div>lib</div> */}
               </PrivateRoad>
             }
           />
@@ -62,7 +51,6 @@ function App() {
             }
           />
           <Route path="*" element={<Navigate to={'/home'} />} />
-          {/* <Route path="*" element={<div>res</div>} /> */}
           <Route path="/*" element={<div>route</div>} />
         </Routes>
       </div>

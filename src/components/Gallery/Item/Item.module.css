@@ -1,5 +1,4 @@
 .container {
-  /* width: 280px; */
   height: 100%;
   cursor: pointer;
 
@@ -17,6 +16,7 @@
 }
 
 .poster {
+  min-height: 250px;
   width: 100%;
   height: auto;
 

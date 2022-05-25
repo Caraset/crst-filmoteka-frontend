@@ -1,19 +1,16 @@
-import React, { useEffect, useState } from 'react'
-import { useLocation, useNavigate, useParams } from 'react-router-dom'
-import { useSelector } from 'react-redux'
+import React, { useState } from 'react'
+import { useParams } from 'react-router-dom'
+import { TailSpin } from 'react-loader-spinner'
+
 import Container from 'components/Container'
 import Gallery from 'components/Gallery'
 import {
-  useGetUserMoviesQuery,
   useGetUserQueueMoviesQuery,
   useGetUserWatchedMoviesQuery,
-  userLibraryI,
-} from 'redux/query/ownApi'
-import { MovieI, MoviesI } from 'redux/query/types'
+} from 'redux/query/ownApiMovies'
+import { MoviesI } from 'types'
 
 import style from './LibraryView.module.css'
-
-import { TailSpin } from 'react-loader-spinner'
 
 export default function LibraryView() {
   const [page, setPage] = useState<number>(1)

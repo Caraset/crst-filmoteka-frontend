@@ -14,7 +14,8 @@
   color: var(--third-color);
 }
 
-.students {
+.link {
+  color: var(--third-color);
   text-decoration: underline;
 }
 

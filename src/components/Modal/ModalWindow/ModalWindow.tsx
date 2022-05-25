@@ -1,19 +1,18 @@
 import React, { useEffect, useState } from 'react'
-import { useGetGenresQuery } from 'redux/query/themoviedbApi'
-import { MovieI } from 'redux/query/types'
-import { ReactComponent as CloseIcon } from 'images/close.svg'
-import style from './ModalWindow.module.css'
-import ButtonsMenu from './ButtonsMenu'
-import { IbuttonOptions } from '__interface__'
-import { useNavigate } from 'react-router-dom'
 import { useSelector } from 'react-redux'
-import { getIsLoggedIn } from 'redux/auth/authSelector'
+import { useNavigate } from 'react-router-dom'
+
+import { ReactComponent as CloseIcon } from 'images/close.svg'
+import ButtonsMenu from './ButtonsMenu'
+import { IbuttonOptions, MovieI } from 'types'
+import { getIsLoggedIn, selectCurrentUser } from 'redux/auth/authSelector'
+import { useGetGenresQuery } from 'redux/query/themoviedbApi'
 import {
   useSaveMovieMutation,
-  useGetCurrentUserQuery,
   useRemoveMovieMutation,
-  useGetUserMoviesQuery,
-} from 'redux/query/ownApi'
+} from 'redux/query/ownApiMovies'
+
+import style from './ModalWindow.module.css'
 
 interface Props {
   movie: MovieI
@@ -24,6 +23,8 @@ export default function ModalWindow({ movie, closeModal }: Props) {
   const { data: genres } = useGetGenresQuery('genres')
   const navigate = useNavigate()
   const isLoggedIn = useSelector(getIsLoggedIn)
+  const user = useSelector(selectCurrentUser)
+
   const [isMovieInWatched, setIsMovieInWatched] = useState(false)
   const [isMovieInQueue, setIsMovieInQueue] = useState(false)
 
@@ -34,8 +35,6 @@ export default function ModalWindow({ movie, closeModal }: Props) {
   const [saveMovie] = useSaveMovieMutation()
   const [deleteMovie] = useRemoveMovieMutation()
 
-  const { data: user } = useGetCurrentUserQuery()
-
   useEffect(() => {
     if ((user?.moviesWatched.movies as number[])?.find(id => id === movie.id)) {
       setIsMovieInWatched(true)
@@ -43,7 +42,7 @@ export default function ModalWindow({ movie, closeModal }: Props) {
     if ((user?.moviesQueue.movies as number[])?.find(id => id === movie.id)) {
       setIsMovieInQueue(true)
     }
-  }, [])
+  }, [user])
 
   const modalButtonsOptions: IbuttonOptions = {
     leftText: isMovieInWatched ? 'remove from watched' : 'add to watched',
@@ -59,15 +58,6 @@ export default function ModalWindow({ movie, closeModal }: Props) {
     }
 
     closeModal()
-  }
-
-  const notLoggedRedirect = () => {
-    if (!isLoggedIn) {
-      navigate('/signin')
-      return true
-    }
-
-    return false
   }
 
   const addMovie = (type: 'watched' | 'queue') => {

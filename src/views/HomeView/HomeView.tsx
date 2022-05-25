@@ -1,16 +1,18 @@
 import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
+import { TailSpin } from 'react-loader-spinner'
+import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css'
+
 import Container from 'components/Container'
 import Gallery from 'components/Gallery'
 import {
   useGetPopularMoviesQuery,
   useSearchMovieByNameQuery,
 } from 'redux/query/themoviedbApi'
-import { MoviesI } from 'redux/query/types'
-import style from './HomeView.module.css'
+import { MoviesI } from 'types'
 import { getSearchValue } from 'redux/selectors'
-import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css'
-import { TailSpin } from 'react-loader-spinner'
+
+import style from './HomeView.module.css'
 
 export default function HomeView() {
   const [page, setPage] = useState(1)
@@ -52,12 +54,6 @@ export default function HomeView() {
                   setPage={setPage}
                 />
               )}
-              {/* <Gallery
-                movies={results}
-                totalPages={totalPages}
-                page={page}
-                setPage={setPage}
-              /> */}
             </>
           )}
         </div>

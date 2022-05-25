@@ -1,12 +1,15 @@
-import React, { useEffect, useState, useRef, useMemo } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Transition } from 'react-transition-group'
+
 import { useGetGenresQuery } from 'redux/query/themoviedbApi'
 import { EntityState } from '@reduxjs/toolkit'
-import style from './Gallery.module.css'
+import type { MovieI, GenreI } from 'types'
+
 import Item from './Item'
 import Pagination from './Pagination'
 import Modal from 'components/Modal'
-import type { MoviesI, MovieI, GenreI } from 'redux/query/types'
+
+import style from './Gallery.module.css'
 
 interface Props {
   movies: MovieI[]

@@ -1,6 +1,8 @@
 import React from 'react'
-import style from './Logo.module.css'
+
 import { ReactComponent as FilmotekaLogo } from 'images/filmoteka-logo.svg'
+
+import style from './Logo.module.css'
 
 export default function Logo() {
   return (

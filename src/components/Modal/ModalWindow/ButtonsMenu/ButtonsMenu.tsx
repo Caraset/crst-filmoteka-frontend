@@ -1,15 +1,15 @@
-import React, { useEffect, useState } from 'react'
-import style from './ButtonsMenu.module.css'
-import Button from 'components/Button'
-import { IbuttonOptions } from '__interface__'
+import React from 'react'
 
-type saveMovieFunc = () => void
+import Button from 'components/Button'
+import { IbuttonOptions } from 'types'
+
+import style from './ButtonsMenu.module.css'
 
 interface Props {
   styleClass?: string
   buttonsOptions: IbuttonOptions
-  leftBtnFunc: saveMovieFunc
-  rightBtnFunc: saveMovieFunc
+  leftBtnFunc: () => void
+  rightBtnFunc: () => void
   leftBtnActive: boolean
   rightBtnActive: boolean
 }

@@ -1,11 +1,11 @@
-import React, { EventHandler, useState, useEffect } from 'react'
-import { NavLink, useLocation, useNavigate } from 'react-router-dom'
-import style from './Menu.module.css'
+import React from 'react'
+import { NavLink } from 'react-router-dom'
 
 import { getIsLoggedIn } from 'redux/auth/authSelector'
 import { useSelector } from 'react-redux'
-import { useLogOutUserMutation } from 'redux/query/ownApi'
-import Button from 'components/Button'
+import { useLogOutUserMutation } from 'redux/query/ownApiAuth'
+
+import style from './Menu.module.css'
 
 export default function Menu() {
   const [logout] = useLogOutUserMutation()
@@ -31,13 +31,11 @@ export default function Menu() {
       </li>
       <li className={style.item}>
         <NavLink
-          // to="/library"
           to={`${isLoggedIn ? '/library' : '/signin'}`}
           className={({ isActive }) =>
             isActive ? `${style.link} ${style.active}` : `${style.link}`
           }
         >
-          {/* my library */}
           {`${isLoggedIn ? 'my library' : 'signIn'}`}
         </NavLink>
       </li>

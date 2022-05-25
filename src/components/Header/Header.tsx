@@ -1,14 +1,16 @@
-import React, { useEffect, useState } from 'react'
-import { NavLink, useLocation, Link } from 'react-router-dom'
-import style from './Header.module.css'
+import React from 'react'
+import { NavLink, useLocation } from 'react-router-dom'
+import { useSelector } from 'react-redux'
+
 import Logo from 'components/Logo'
 import Container from 'components/Container'
 import Menu from './Menu'
 import Search from './Search'
 import ButtonsMenu from './ButtonsMenu'
-import { IbuttonOptions } from '__interface__'
-import { useSelector } from 'react-redux'
+import { IbuttonOptions } from 'types'
 import { getIsLoggedIn } from 'redux/auth/authSelector'
+
+import style from './Header.module.css'
 
 const headerButtonsOptions: IbuttonOptions = {
   leftText: 'watched',
@@ -37,7 +39,6 @@ export default function Header() {
             </NavLink>
           </div>
           <Menu />
-          {/* {isLoged ? <Menu /> : <Link to="/signup">Login</Link>} */}
         </div>
         {loc.pathname === '/home' ? (
           <Search />
@@ -46,7 +47,6 @@ export default function Header() {
             <ButtonsMenu
               styleClass={style.buttonsContainer}
               buttonsOptions={headerButtonsOptions}
-              currentActive={'left'}
             />
           )
         )}

@@ -1,8 +1,10 @@
-import React, { useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import style from './Search.module.css'
+import React from 'react'
+import { useDispatch } from 'react-redux'
+
 import { ReactComponent as SearchButton } from 'images/search-icon.svg'
 import { change } from 'redux/search/searchSlice'
+
+import style from './Search.module.css'
 
 export default function Search() {
   const dispatch = useDispatch()

@@ -15,8 +15,6 @@ export default function PublicRoute({
   redirectTo = '/home',
 }: Props) {
   const isLoggedIn = useSelector(getIsLoggedIn)
-  // const isLoggedIn = true
   const shouldRedirect = isLoggedIn && restricted
   return shouldRedirect ? <Navigate to={redirectTo} /> : children
-  // return isLoggedIn ? <Navigate to={redirectTo} /> : children
 }
